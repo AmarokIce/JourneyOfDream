@@ -3,6 +3,7 @@ package club.someoneice.jod.common.screen.world
 import club.someoneice.jod.api.GameBasicInfo
 import club.someoneice.jod.api.bean.BaseScreen
 import club.someoneice.jod.common.actor.CatEntity
+import club.someoneice.jod.core.GameMain
 import club.someoneice.jod.tool.KeyInputHolder
 import club.someoneice.jod.util.ResourceUtil.toTexture
 import club.someoneice.jod.util.ScreenUtil
@@ -24,23 +25,27 @@ class Outside: BaseScreen() {
     val cat = CatEntity(Vector2(GameBasicInfo.WINDOWS_WIDTH / 2f, GameBasicInfo.WINDOWS_HEIGHT / 2f))
     val inputHolder = KeyInputHolder()
 
+    val music = Gdx.audio.newMusic(Gdx.files.internal("assets/music/a_little_orange_cat.mp3"))
+
     val renderer = Box2DDebugRenderer()
 
     override fun join() {
         this.cat.setRenderScale(5.0f)
         this.cat.setRenderOffset(-60f, -20f)
-        // this.groundSprite.setPosition(0.0f, 0.0f)
-        // this.groundSprite.setSize(1280F, 720F)
 
         this.camera.zoom = 32f
         this.camera.position.set(this.camera.viewportWidth / 2f, this.camera.viewportHeight / 2f, 0f)
         this.camera.update()
 
-        createBox()
+        this.createBox()
+
+        this.music.play()
+        this.music.isLooping
 
         this.disposeableSet.add(cat)
         this.disposeableSet.add(world)
         this.disposeableSet.add(groundTexture)
+        this.disposeableSet.add(music)
     }
 
     fun createBox() {
@@ -95,8 +100,9 @@ class Outside: BaseScreen() {
 
         world.step(1 / 30f, 6, 2)
 
-        // TODO: Debug only
-        this.renderer.render(this.world, this.camera.combined)
+        if (GameMain.DEBUG_MODE) {
+            this.renderer.render(this.world, this.camera.combined)
+        }
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -111,5 +117,10 @@ class Outside: BaseScreen() {
         this.camera.viewportWidth = 30f
         this.camera.viewportHeight = 30f * height / width
         this.camera.update()
+    }
+
+    override fun hide() {
+        this.music.stop()
+        super.hide()
     }
 }

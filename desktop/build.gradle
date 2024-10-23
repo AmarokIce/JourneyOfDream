@@ -116,7 +116,7 @@ distributions {
   }
 }
 
-startScripts.dependsOn(':lwjgl3:jar')
+startScripts.dependsOn(':desktop:jar')
 startScripts.classpath = project.tasks.jar.outputs.files
 
 if(enableGraalNative == 'true') {

@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx
 class GameMain(val arch: ArchitectureOS) : Game() {
     companion object {
         lateinit var INSTANCE: GameMain
+        val DEBUG_MODE = false
 
         fun info(str: String) {
             Gdx.app.log("journey of dream", str)

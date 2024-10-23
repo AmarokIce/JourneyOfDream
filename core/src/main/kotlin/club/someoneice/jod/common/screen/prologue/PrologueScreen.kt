@@ -23,6 +23,9 @@ class PrologueScreen: BaseScreen() {
     val backgroundTexture = ScreenUtil.createBackgroundTexture(JColor.WHITE, this.disposeableSet)
 
     override fun join() {
+        if (GameMain.DEBUG_MODE) {
+            GameMain.debug("Game start show.")
+        }
     }
 
     var shouldMakeAplhaLowdown = false

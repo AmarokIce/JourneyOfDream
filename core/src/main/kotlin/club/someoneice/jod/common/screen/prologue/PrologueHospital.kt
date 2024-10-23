@@ -7,11 +7,14 @@ import club.someoneice.jod.util.GdxColor
 import club.someoneice.jod.util.JColor
 import club.someoneice.jod.util.ResourceUtil.createTexturesArray
 import club.someoneice.jod.util.ScreenUtil
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import ktx.graphics.copy
 import java.lang.Thread.sleep
 
 class PrologueHospital: BaseScreen(false) {
+    val music = Gdx.audio.newMusic(Gdx.files.internal("assets/music/ward.mp3"))
+
     val textures: Array<Texture> = createTexturesArray("textures/stroy/hospitalroom/h", 11)
 
     val backgroundTextureWhite = ScreenUtil.createBackgroundTexture(JColor.WHITE, this.disposeableSet)
@@ -20,6 +23,10 @@ class PrologueHospital: BaseScreen(false) {
 
     override fun join() {
         this.textures.forEach(this.disposeableSet::add)
+        disposeableSet.add(music)
+
+        music.play()
+        music.isLooping = true
     }
 
     var screenAlpha = 1.0f
@@ -29,7 +36,7 @@ class PrologueHospital: BaseScreen(false) {
     override fun render(delta: Float) {
         ScreenUtil.initScreen()
         this.batch.color = GdxColor.WHITE
-        sleep(100)
+        sleep(150)
 
         this.batch.begin()
         // this.batch.color = GdxColor.WHITE
@@ -59,6 +66,8 @@ class PrologueHospital: BaseScreen(false) {
             this.batch.end()
 
             sleep(200)
+
+            this.music.stop()
             GameMain.INSTANCE.nextScreen(Outside())
             return
         }
