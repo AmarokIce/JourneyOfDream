@@ -32,9 +32,11 @@ class GameMain(val arch: ArchitectureOS) : Game() {
      * Only PC Local can be save the data file.
      * @return Return true if architecture is LWJGL.
      */
-    fun canSaveFile(): Boolean {
+    /*
+    fun isDesktopSide(): Boolean {
         return this.arch == ArchitectureOS.LWJGL
     }
+    */
 
     override fun create() {
         init()
