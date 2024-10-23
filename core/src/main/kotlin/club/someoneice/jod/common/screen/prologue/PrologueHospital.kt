@@ -15,7 +15,7 @@ import java.lang.Thread.sleep
 class PrologueHospital: BaseScreen(false) {
     val music = Gdx.audio.newMusic(Gdx.files.internal("assets/music/ward.mp3"))
 
-    val textures: Array<Texture> = createTexturesArray("textures/stroy/hospitalroom/h", 11)
+    val textures: Array<Texture> = createTexturesArray("textures/story/hospitalroom/h", 11)
 
     val backgroundTextureWhite = ScreenUtil.createBackgroundTexture(JColor.WHITE, this.disposeableSet)
     val backgroundTextureBlack = ScreenUtil.createBackgroundTexture(JColor.BLACK, this.disposeableSet)

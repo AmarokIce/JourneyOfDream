@@ -2,6 +2,7 @@ package club.someoneice.jod.core
 
 import club.someoneice.jod.api.bean.BaseScreen
 import club.someoneice.jod.common.screen.demo.DemoMenuScreen
+import club.someoneice.jod.common.screen.world.Outside
 import club.someoneice.jod.core.GameMain.ArchitectureOS
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
@@ -42,8 +43,8 @@ class GameMain(val arch: ArchitectureOS) : Game() {
         init()
 
         info("Show first screen.")
-        // this.setScreen(DemoMenuScreen())
         this.setScreen(DemoMenuScreen())
+        // this.setScreen(Outside())
     }
 
     fun init() {

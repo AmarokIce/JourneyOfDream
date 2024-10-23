@@ -2,9 +2,11 @@ package club.someoneice.jod.common.screen.world
 
 import club.someoneice.jod.api.GameBasicInfo
 import club.someoneice.jod.api.bean.BaseScreen
-import club.someoneice.jod.common.actor.CatEntity
+import club.someoneice.jod.common.actor.Cat
 import club.someoneice.jod.core.GameMain
+import club.someoneice.jod.tool.AnimationController
 import club.someoneice.jod.tool.KeyInputHolder
+import club.someoneice.jod.util.ResourceUtil.createTexturesArray
 import club.someoneice.jod.util.ResourceUtil.toTexture
 import club.someoneice.jod.util.ScreenUtil
 import com.badlogic.gdx.Gdx
@@ -20,9 +22,13 @@ class Outside: BaseScreen() {
     val world = World(Vector2(0f, -40f), true)
     val camera = OrthographicCamera(1280f, 720f)
 
-    val groundTexture = Gdx.files.internal("textures/outside/home.png").toTexture()
+    val backgroundTexture = Gdx.files.internal("textures/story/outside/outside_background.png").toTexture()
+    val groundTexture = Gdx.files.internal("textures/story/outside/ground.png").toTexture()
 
-    val cat = CatEntity(Vector2(GameBasicInfo.WINDOWS_WIDTH / 2f, GameBasicInfo.WINDOWS_HEIGHT / 2f))
+    val animationBoat  = AnimationController(20.0f, *createTexturesArray("textures/story/outside/boat/boat", 8))
+    val animationDock  = AnimationController(20.0f, *createTexturesArray("textures/story/outside/dock/dock", 4))
+
+    val cat = Cat(Vector2(500f, 170f))
     val inputHolder = KeyInputHolder()
 
     val music = Gdx.audio.newMusic(Gdx.files.internal("assets/music/a_little_orange_cat.mp3"))
@@ -32,6 +38,7 @@ class Outside: BaseScreen() {
     override fun join() {
         this.cat.setRenderScale(5.0f)
         this.cat.setRenderOffset(-60f, -20f)
+        this.cat.camera.y += 50
 
         this.camera.zoom = 32f
         this.camera.position.set(this.camera.viewportWidth / 2f, this.camera.viewportHeight / 2f, 0f)
@@ -43,7 +50,11 @@ class Outside: BaseScreen() {
         this.music.isLooping
 
         this.disposeableSet.add(cat)
+        this.disposeableSet.add(animationBoat)
+        this.disposeableSet.add(animationDock)
+
         this.disposeableSet.add(world)
+        this.disposeableSet.add(backgroundTexture)
         this.disposeableSet.add(groundTexture)
         this.disposeableSet.add(music)
     }
@@ -52,13 +63,35 @@ class Outside: BaseScreen() {
         /* Create ground (Static) */
 
         PolygonShape().apply {
-            this.setAsBox(2560f, 20f)
+            this.setAsBox(1500f, 20f)
             world.createBody(
                 BodyDef().apply {
                     this.type = BodyType.StaticBody
-                    this.position.set(0f, 144f)  // 720f / 5f = 144f
+                    this.position.set(0f, 130f)
                 }
-            ).createFixture(this, 9.8f)
+            ).createFixture(this, 0f)
+            this.dispose()
+        }
+
+        PolygonShape().apply {
+            this.setAsBox(30f, 20f)
+            world.createBody(
+                BodyDef().apply {
+                    this.type = BodyType.StaticBody
+                    this.position.set(1530f, 110f)
+                }
+            ).createFixture(this, 0f)
+            this.dispose()
+        }
+
+        PolygonShape().apply {
+            this.setAsBox(120f, 20f)
+            world.createBody(
+                BodyDef().apply {
+                    this.type = BodyType.StaticBody
+                    this.position.set(1680f, 90f)
+                }
+            ).createFixture(this, 0f)
             this.dispose()
         }
 
@@ -91,10 +124,19 @@ class Outside: BaseScreen() {
         this.camera.update()
         this.batch.setProjectionMatrix(this.camera.combined)
 
+        this.animationBoat.addDelta(1.0f)
+        this.animationDock.addDelta(1.0f)
+
         this.batch.begin()
 
-        this.batch.draw(this.groundTexture, 0f, 0f)
+        this.batch.draw(this.backgroundTexture, 0f, 0f)
+
+        this.batch.draw(animationBoat.getTexture(), 1646f, 59f)
+        this.batch.draw(animationDock.getTexture(), 1612f, 24f)
+
         this.cat.render(batch, 1.0f)
+
+        this.batch.draw(this.groundTexture, 0f, 0f)
 
         this.batch.end()
 
