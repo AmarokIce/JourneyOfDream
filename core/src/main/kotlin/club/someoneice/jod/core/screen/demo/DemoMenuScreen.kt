@@ -1,11 +1,11 @@
-package club.someoneice.jod.common.screen.demo
+package club.someoneice.jod.core.screen.demo
 
-import club.someoneice.jod.api.bean.BaseScreen
-import club.someoneice.jod.common.screen.prologue.PrologueScreen
+import club.someoneice.jod.api.BaseScreen
 import club.someoneice.jod.core.GameMain
-import club.someoneice.jod.core.I18N
-import club.someoneice.jod.util.CtrlSets
-import club.someoneice.jod.util.ScreenUtil
+import club.someoneice.jod.core.screen.prologue.PrologueScreen
+import club.someoneice.jod.data.CtrlSets
+import club.someoneice.jod.data.GameGlobal
+import club.someoneice.jod.i18n.I18N
 import com.badlogic.gdx.graphics.Color
 
 class DemoMenuScreen : BaseScreen() {
@@ -13,7 +13,7 @@ class DemoMenuScreen : BaseScreen() {
     }
 
     override fun render(delta: Float) {
-        ScreenUtil.initScreen()
+        GameGlobal.initScreen()
 
         this.batch.begin()
         this.font.getData().setScale(0.8f)

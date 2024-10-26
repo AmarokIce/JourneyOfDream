@@ -1,9 +1,9 @@
-package club.someoneice.jod.common.actor
+package club.someoneice.jod.core.actor
 
-import club.someoneice.jod.api.bean.Entity
-import club.someoneice.jod.tool.AnimationController
-import club.someoneice.jod.tool.KeyInputHolder
-import club.someoneice.jod.util.CtrlSets
+import club.someoneice.jod.api.Entity
+import club.someoneice.jod.data.CtrlSets
+import club.someoneice.jod.util.AnimationController
+import club.someoneice.jod.util.KeyInputHolder
 import club.someoneice.jod.util.ResourceUtil.createTexturesArray
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -15,11 +15,11 @@ import kotlin.math.max
 import kotlin.math.min
 
 class Cat(pos: Vector2 = Vector2.Zero): Entity(pos = pos) {
-    val staticCtrl = AnimationController(5.0f, *createTexturesArray("textures/actor/cat/static/CAT", 6))
-    val walkingCtrl = AnimationController(5.0f, *createTexturesArray("textures/actor/cat/walk/CAT_walk", 7))
-    val runningCtrl = AnimationController(5.0f, *createTexturesArray("textures/actor/cat/running/CAT_running", 10))
-    val jumpingCtrl = AnimationController(5.0f, *createTexturesArray("textures/actor/cat/jump/CAT_jump", 6))
-    val stretchCtrl = AnimationController(5.0f, *createTexturesArray("textures/actor/cat/stretch/CAT_stretch", 16))
+    val staticCtrl = AnimationController(5.0f, *createTexturesArray("textures/cat/static/cat", 6))
+    val walkingCtrl = AnimationController(5.0f, *createTexturesArray("textures/cat/walk/cat_walk", 7))
+    val runningCtrl = AnimationController(5.0f, *createTexturesArray("textures/cat/running/cat_running", 10))
+    val jumpingCtrl = AnimationController(5.0f, *createTexturesArray("textures/cat/jump/cat_jumping", 6))
+    val stretchCtrl = AnimationController(5.0f, *createTexturesArray("textures/cat/stretch/cat_stretch", 16))
 
     var actionState = State.STATIC
     var directionRight = true

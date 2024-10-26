@@ -1,5 +1,6 @@
 ## Temp:
 /assets/
+/package/
 
 ## Gradle:
 .gradle/

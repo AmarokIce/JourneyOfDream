@@ -1,14 +1,17 @@
-package club.someoneice.jod.common.screen.world
+package club.someoneice.jod.core.screen.world
 
-import club.someoneice.jod.api.GameBasicInfo
-import club.someoneice.jod.api.bean.BaseScreen
-import club.someoneice.jod.common.actor.Cat
+import club.someoneice.jod.api.BaseScreen
 import club.someoneice.jod.core.GameMain
-import club.someoneice.jod.tool.AnimationController
-import club.someoneice.jod.tool.KeyInputHolder
+import club.someoneice.jod.core.actor.Cat
+import club.someoneice.jod.data.GameGlobal
+import club.someoneice.jod.data.MusicSet
+import club.someoneice.jod.util.AnimationController
+import club.someoneice.jod.util.GdxColor
+import club.someoneice.jod.util.JColor
+import club.someoneice.jod.util.KeyInputHolder
+import club.someoneice.jod.util.ResourceUtil
 import club.someoneice.jod.util.ResourceUtil.createTexturesArray
-import club.someoneice.jod.util.ResourceUtil.toTexture
-import club.someoneice.jod.util.ScreenUtil
+import club.someoneice.jod.util.toTexture
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
@@ -17,6 +20,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.physics.box2d.World
+import java.lang.Thread.sleep
+import kotlin.math.max
 
 class Outside: BaseScreen() {
     val world = World(Vector2(0f, -40f), true)
@@ -31,8 +36,6 @@ class Outside: BaseScreen() {
     val cat = Cat(Vector2(500f, 170f))
     val inputHolder = KeyInputHolder()
 
-    val music = Gdx.audio.newMusic(Gdx.files.internal("assets/music/a_little_orange_cat.mp3"))
-
     val renderer = Box2DDebugRenderer()
 
     override fun join() {
@@ -46,17 +49,16 @@ class Outside: BaseScreen() {
 
         this.createBox()
 
-        this.music.play()
-        this.music.isLooping
+        MusicSet.A_LITTLE_ORANGE_CAT.play()
+        MusicSet.A_LITTLE_ORANGE_CAT.loop()
 
-        this.disposeableSet.add(cat)
-        this.disposeableSet.add(animationBoat)
-        this.disposeableSet.add(animationDock)
+        this.disposableSet.add(cat)
+        this.disposableSet.add(animationBoat)
+        this.disposableSet.add(animationDock)
 
-        this.disposeableSet.add(world)
-        this.disposeableSet.add(backgroundTexture)
-        this.disposeableSet.add(groundTexture)
-        this.disposeableSet.add(music)
+        this.disposableSet.add(world)
+        this.disposableSet.add(backgroundTexture)
+        this.disposableSet.add(groundTexture)
     }
 
     fun createBox() {
@@ -115,10 +117,24 @@ class Outside: BaseScreen() {
         shape.dispose()
     }
 
-    override fun render(delta: Float) {
-        ScreenUtil.initScreen()
+    val joinBackgroundColor = GdxColor.WHITE.cpy()
+    var canMove = false
 
-        this.cat.handleInput(this.inputHolder)
+    fun joinScreen() {
+        sleep(100)
+        this.batch.color = this.joinBackgroundColor
+        this.batch.draw(ResourceUtil.createOrGetBackground(JColor.WHITE), 0f, 0f)
+        this.batch.color = GdxColor.WHITE
+        this.joinBackgroundColor.a = max(this.joinBackgroundColor.a - 0.1f, 0f)
+        this.canMove = this.joinBackgroundColor.a == 0.0f
+    }
+
+    override fun render(delta: Float) {
+        GameGlobal.initScreen()
+
+        if (canMove) {
+            this.cat.handleInput(this.inputHolder)
+        }
 
         this.camera.position.set(cat.camera.x, cat.camera.y, 0f)
         this.camera.update()
@@ -137,6 +153,10 @@ class Outside: BaseScreen() {
         this.cat.render(batch, 1.0f)
 
         this.batch.draw(this.groundTexture, 0f, 0f)
+
+        if (!canMove) {
+            this.joinScreen()
+        }
 
         this.batch.end()
 
@@ -162,7 +182,7 @@ class Outside: BaseScreen() {
     }
 
     override fun hide() {
-        this.music.stop()
+        MusicSet.A_LITTLE_ORANGE_CAT.stop()
         super.hide()
     }
 }

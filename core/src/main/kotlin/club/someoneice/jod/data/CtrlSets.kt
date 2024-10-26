@@ -1,4 +1,4 @@
-package club.someoneice.jod.util
+package club.someoneice.jod.data
 
 import com.badlogic.gdx.Input
 

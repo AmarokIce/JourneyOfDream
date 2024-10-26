@@ -1,20 +1,21 @@
-package club.someoneice.jod.api.bean
+package club.someoneice.jod.api
 
-import club.someoneice.jod.util.ResourceUtil
+import club.someoneice.jod.data.GameGlobal
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.Disposable
+import com.github.czyzby.kiwi.util.gdx.asset.Disposables
 import ktx.collections.GdxSet
 import java.util.Objects
 
 abstract class BaseScreen(val shouldLicense: Boolean) : ScreenAdapter(), InputProcessor, Disposable {
-    protected val font: BitmapFont = ResourceUtil.getGameFont() // The font for game.
-    protected val batch: SpriteBatch = ResourceUtil.getGameBatch() // The batch for sprite.
+    protected val font: BitmapFont = GameGlobal.getGameFont() // The font for game.
+    protected val batch: SpriteBatch = GameGlobal.getGameBatch() // The batch for sprite.
 
-    protected val disposeableSet: GdxSet<Disposable?> = GdxSet()
+    protected val disposableSet: GdxSet<Disposable?> = GdxSet()
 
     constructor() : this(true)
 
@@ -30,7 +31,7 @@ abstract class BaseScreen(val shouldLicense: Boolean) : ScreenAdapter(), InputPr
     }
 
     override fun dispose() {
-        disposeableSet.filter(Objects::nonNull).forEach(ResourceUtil::setDispose)
+        disposableSet.filter(Objects::nonNull).forEach(Disposables::disposeOf)
     }
 
     override fun keyTyped(character: Char): Boolean {

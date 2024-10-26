@@ -1,16 +1,19 @@
 package club.someoneice.jod.core
 
-import club.someoneice.jod.api.bean.BaseScreen
-import club.someoneice.jod.common.screen.demo.DemoMenuScreen
-import club.someoneice.jod.common.screen.world.Outside
+import club.someoneice.jod.api.BaseScreen
 import club.someoneice.jod.core.GameMain.ArchitectureOS
+import club.someoneice.jod.core.screen.MainScreen
+import club.someoneice.jod.data.GameGlobal
+import club.someoneice.jod.i18n.I18N
+import club.someoneice.jod.util.GdxColor
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 
 class GameMain(val arch: ArchitectureOS) : Game() {
+    @Suppress("unused")
     companion object {
         lateinit var INSTANCE: GameMain
-        val DEBUG_MODE = false
+        const val DEBUG_MODE = false
 
         fun info(str: String) {
             Gdx.app.log("journey of dream", str)
@@ -30,20 +33,20 @@ class GameMain(val arch: ArchitectureOS) : Game() {
     }
 
     /**
-     * Only PC Local can be save the data file.
      * @return Return true if architecture is LWJGL.
      */
-    /*
+    @Deprecated("Deprecated")
     fun isDesktopSide(): Boolean {
         return this.arch == ArchitectureOS.LWJGL
     }
-    */
+
 
     override fun create() {
         init()
 
         info("Show first screen.")
-        this.setScreen(DemoMenuScreen())
+        this.setScreen(MainScreen())
+        // this.setScreen(PrologueHospital())
         // this.setScreen(Outside())
     }
 
@@ -55,7 +58,13 @@ class GameMain(val arch: ArchitectureOS) : Game() {
     }
 
     fun nextScreen(next: BaseScreen?) {
+        GameGlobal.BATCH.color = GdxColor.WHITE.cpy()
         this.setScreen(next)
+    }
+
+    override fun dispose() {
+        super.dispose()
+        GameGlobal.dispose()
     }
 
     enum class ArchitectureOS {

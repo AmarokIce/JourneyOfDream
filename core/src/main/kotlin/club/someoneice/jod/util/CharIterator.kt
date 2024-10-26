@@ -1,8 +1,10 @@
-package club.someoneice.jod.tool
+package club.someoneice.jod.util
 
-import club.someoneice.jod.core.I18N
+import club.someoneice.jod.i18n.I18N
+import com.badlogic.gdx.math.MathUtils
+import java.util.regex.Pattern
 
-class FontRenderBean {
+class CharIterator {
     private val texts: Array<String>
 
     private var textLineIndex = 0
@@ -40,14 +42,27 @@ class FontRenderBean {
         this.textIndex = 0
     }
 
-    fun getText(): String {
-        return I18N.format(texts[textLineIndex])
-    }
+    fun getText(): String = I18N.format(texts[textLineIndex])
+    fun getTextAt(index: Int): String = I18N.format(this.texts[index])
+    fun getLineAt(): Int = this.textLineIndex
 
     fun reset() {
         this.textLineIndex = 0
         this.textIndex = 0
     }
+
+    companion object {
+        fun calculateLength(str: String, scale: Float = 1.0f): Int {
+            val leg = MathUtils.floor(5 * scale)
+            val letterLeg = MathUtils.floor(16 * scale)
+
+            var counter = 0
+            Pattern.compile("[.,!?\\-+(){}\\[\\]:;<>~`]")
+                .matcher(str)
+                .takeIf { it.find() }
+                ?.run { counter++ }
+
+            return counter * leg + (str.length - counter) * letterLeg
+        }
+    }
 }
-
-

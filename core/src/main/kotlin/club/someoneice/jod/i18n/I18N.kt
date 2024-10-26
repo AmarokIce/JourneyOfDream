@@ -1,4 +1,4 @@
-package club.someoneice.jod.core
+package club.someoneice.jod.i18n
 
 import club.someoneice.json.JSON
 import club.someoneice.json.Pair

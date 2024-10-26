@@ -1,6 +1,6 @@
-package club.someoneice.jod.common.screen.demo
+package club.someoneice.jod.core.screen.demo
 
-import club.someoneice.jod.util.ScreenUtil
+import club.someoneice.jod.data.GameGlobal
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -68,7 +68,7 @@ class DemoBox2DScreen: ApplicationAdapter() {
 
     override fun render() {
         super.render()
-        ScreenUtil.initScreen()
+        GameGlobal.initScreen()
 
         world!!.step(Gdx.graphics.deltaTime, 6, 2)
         camera!!.update()

@@ -1,4 +1,4 @@
-package club.someoneice.jod.tool
+package club.someoneice.jod.util
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation

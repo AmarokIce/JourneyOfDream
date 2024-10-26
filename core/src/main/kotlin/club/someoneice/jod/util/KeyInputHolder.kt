@@ -1,4 +1,4 @@
-package club.someoneice.jod.tool
+package club.someoneice.jod.util
 
 import java.util.LinkedList
 

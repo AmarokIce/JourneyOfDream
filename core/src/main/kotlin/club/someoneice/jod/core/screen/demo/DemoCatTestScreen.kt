@@ -1,4 +1,4 @@
-package club.someoneice.jod.common.screen.demo
+package club.someoneice.jod.core.screen.demo
 
 /*
 class DemoCatTestScreen: BaseScreen() {
