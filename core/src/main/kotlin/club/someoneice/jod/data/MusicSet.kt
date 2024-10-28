@@ -7,6 +7,7 @@ enum class MusicSet(val soundName: String) {
     A_LITTLE_ORANGE_CAT("a_little_orange_cat"),
     THE_OCEAN("the_ocean"),
     THE_OTHER_SHORE("the_other_shore"),
+    THE_OTHER_SHORE_ALL("the_other_shore_all"),
     WARD("ward");
 
     fun createNewMusic(): Music = Gdx.audio.newMusic(Gdx.files.internal("music/${this.soundName}.mp3"))

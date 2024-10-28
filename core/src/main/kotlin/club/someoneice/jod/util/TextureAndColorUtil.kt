@@ -1,6 +1,5 @@
 package club.someoneice.jod.util
 
-import club.someoneice.jod.api.GameBasicInfo
 import club.someoneice.jod.data.GameGlobal
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
