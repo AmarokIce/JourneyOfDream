@@ -1,11 +1,9 @@
 package club.someoneice.jod.core.screen.outside
 
 import club.someoneice.jod.api.BaseScreen
-import club.someoneice.jod.api.GameBasicInfo
 import club.someoneice.jod.data.GameGlobal
 import club.someoneice.jod.data.MusicSet
 import club.someoneice.jod.util.AnimationController
-import club.someoneice.jod.util.CharIterator
 import club.someoneice.jod.util.GdxColor
 import club.someoneice.jod.util.JColor
 import club.someoneice.jod.util.ResourceUtil
