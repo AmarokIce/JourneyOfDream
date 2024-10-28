@@ -3,7 +3,7 @@ package club.someoneice.jod.core.screen.prologue
 import club.someoneice.jod.api.BaseScreen
 import club.someoneice.jod.api.GameBasicInfo
 import club.someoneice.jod.core.GameMain
-import club.someoneice.jod.core.screen.world.Outside
+import club.someoneice.jod.core.screen.outside.Home
 import club.someoneice.jod.data.CtrlSets
 import club.someoneice.jod.data.GameGlobal
 import club.someoneice.jod.data.MusicSet
@@ -47,7 +47,7 @@ class PrologueDream: BaseScreen() {
                 music.stop()
                 MusicSet.WARD.dispose()
                 sleep(300)
-                GameMain.INSTANCE.nextScreen(Outside())
+                GameMain.INSTANCE.nextScreen(Home())
                 return
             }
 

@@ -65,6 +65,14 @@ class Cat(pos: Vector2 = Vector2.Zero): Entity(pos = pos) {
             texture.width * this.scale.x, texture.height * this.scale.y)
     }
 
+    fun renderWith(batch: Batch, delta: Float, region: TextureRegion) {
+        this.update(delta)
+        val texture = updateStateAndGetTexture(delta)
+        region.flip(!this.directionRight, false)
+        batch.draw(region, this.getRenderPointX(), this.getRenderPointY(),
+            texture.width * this.scale.x, texture.height * this.scale.y)
+    }
+
     override fun handleInput(inputHolder: KeyInputHolder) {
         this.setStateByKeyInput(inputHolder)
         this.setMovingByKeyInput(inputHolder)

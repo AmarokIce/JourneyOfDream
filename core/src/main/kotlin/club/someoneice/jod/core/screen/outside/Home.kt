@@ -1,4 +1,4 @@
-package club.someoneice.jod.core.screen.world
+package club.someoneice.jod.core.screen.outside
 
 import club.someoneice.jod.api.BaseScreen
 import club.someoneice.jod.core.GameMain
@@ -13,6 +13,7 @@ import club.someoneice.jod.util.ResourceUtil
 import club.someoneice.jod.util.ResourceUtil.createTexturesArray
 import club.someoneice.jod.util.toTexture
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
@@ -22,13 +23,15 @@ import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.physics.box2d.World
 import java.lang.Thread.sleep
 import kotlin.math.max
+import kotlin.math.min
 
-class Outside: BaseScreen() {
+class Home: BaseScreen() {
     val world = World(Vector2(0f, -40f), true)
     val camera = OrthographicCamera(1280f, 720f)
 
     val backgroundTexture = Gdx.files.internal("textures/story/outside/outside_background.png").toTexture()
     val groundTexture = Gdx.files.internal("textures/story/outside/ground.png").toTexture()
+    val houseAddon = Gdx.files.internal("textures/story/outside/house_side.png").toTexture()
 
     val animationBoat  = AnimationController(20.0f, *createTexturesArray("textures/story/outside/boat/boat", 8))
     val animationDock  = AnimationController(20.0f, *createTexturesArray("textures/story/outside/dock/dock", 4))
@@ -118,6 +121,7 @@ class Outside: BaseScreen() {
     }
 
     val joinBackgroundColor = GdxColor.WHITE.cpy()
+    var start = false
     var canMove = false
 
     fun joinScreen() {
@@ -127,10 +131,33 @@ class Outside: BaseScreen() {
         this.batch.color = GdxColor.WHITE
         this.joinBackgroundColor.a = max(this.joinBackgroundColor.a - 0.1f, 0f)
         this.canMove = this.joinBackgroundColor.a == 0.0f
+        this.start = this.canMove
+    }
+
+    fun toOcean() {
+        this.cat.render(this.batch, 1.0f)
+
+        this.batch.color = this.joinBackgroundColor
+        this.batch.draw(ResourceUtil.createOrGetBackground(JColor.WHITE), this.camera.position.x / 2f, -60f)
+        this.batch.color = GdxColor.WHITE
+
+        this.joinBackgroundColor.a = min(this.joinBackgroundColor.a + 0.1f, 1.0f)
+        val music = MusicSet.A_LITTLE_ORANGE_CAT.getMusic()!!
+        music.volume = max(music.volume - 0.05f, 0.0f)
+
+        this.batch.end()
+
+        if (music.volume == 0.0f) {
+            GameMain.INSTANCE.nextScreen(Ocean())
+        }
     }
 
     override fun render(delta: Float) {
         GameGlobal.initScreen()
+        world.step(1 / 30f, 6, 2)
+        if (GameMain.DEBUG_MODE) {
+            this.renderer.render(this.world, this.camera.combined)
+        }
 
         if (canMove) {
             this.cat.handleInput(this.inputHolder)
@@ -150,21 +177,22 @@ class Outside: BaseScreen() {
         this.batch.draw(animationBoat.getTexture(), 1646f, 59f)
         this.batch.draw(animationDock.getTexture(), 1612f, 24f)
 
+        if (this.cat.getPos().x >= 1700) {
+            sleep(200)
+            toOcean()
+            return
+        }
+
         this.cat.render(batch, 1.0f)
 
         this.batch.draw(this.groundTexture, 0f, 0f)
+        this.batch.draw(this.houseAddon, 0f, 0f)
 
-        if (!canMove) {
+        if (!start) {
             this.joinScreen()
         }
 
         this.batch.end()
-
-        world.step(1 / 30f, 6, 2)
-
-        if (GameMain.DEBUG_MODE) {
-            this.renderer.render(this.world, this.camera.combined)
-        }
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -172,6 +200,10 @@ class Outside: BaseScreen() {
     }
 
     override fun keyUp(keycode: Int): Boolean {
+        if (GameMain.DEBUG_MODE && keycode == Input.Keys.L) {
+            GameMain.info(this.cat.getPos().x.toString())
+        }
+
         return inputHolder.removeKey(keycode)
     }
 
