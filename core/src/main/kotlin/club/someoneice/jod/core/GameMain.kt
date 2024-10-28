@@ -2,6 +2,7 @@ package club.someoneice.jod.core
 
 import club.someoneice.jod.api.BaseScreen
 import club.someoneice.jod.core.GameMain.ArchitectureOS
+import club.someoneice.jod.core.screen.outside.Arctic
 import club.someoneice.jod.core.screen.outside.Home
 import club.someoneice.jod.core.screen.outside.Ocean
 import club.someoneice.jod.data.GameGlobal
@@ -47,8 +48,7 @@ class GameMain(val arch: ArchitectureOS) : Game() {
 
         info("Show first screen.")
         // this.setScreen(MainScreen())
-        // this.setScreen(PrologueHospital())
-        this.setScreen(Home())
+        this.setScreen(Arctic())
     }
 
     fun init() {

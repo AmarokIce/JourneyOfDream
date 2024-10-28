@@ -32,7 +32,7 @@ object ResourceUtil {
      * Create a solid color textures, it usually created for a background.
      */
     fun createBackgroundTexture(color: JColor, disposeableArray: GdxSet<Disposable?>?): Texture {
-        val image = BufferedImage(GameBasicInfo.WINDOWS_WIDTH, GameBasicInfo.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB)
+        val image = BufferedImage(2000, 2000, BufferedImage.TYPE_INT_RGB)
         val g2d = image.createGraphics()
         g2d.color = color
         g2d.fillRect(0, 0, image.width, image.height)

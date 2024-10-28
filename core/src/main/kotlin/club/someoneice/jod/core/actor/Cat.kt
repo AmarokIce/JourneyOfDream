@@ -65,9 +65,11 @@ class Cat(pos: Vector2 = Vector2.Zero): Entity(pos = pos) {
             texture.width * this.scale.x, texture.height * this.scale.y)
     }
 
-    fun renderWith(batch: Batch, delta: Float, region: TextureRegion) {
+    fun renderWith(batch: Batch, delta: Float, tex: Texture) {
         this.update(delta)
         val texture = updateStateAndGetTexture(delta)
+
+        val region = TextureRegion(tex, 0, 0, tex.width, tex.height)
         region.flip(!this.directionRight, false)
         batch.draw(region, this.getRenderPointX(), this.getRenderPointY(),
             texture.width * this.scale.x, texture.height * this.scale.y)

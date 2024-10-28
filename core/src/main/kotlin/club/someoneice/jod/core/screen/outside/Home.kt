@@ -33,6 +33,8 @@ class Home: BaseScreen() {
     val groundTexture = Gdx.files.internal("textures/story/outside/ground.png").toTexture()
     val houseAddon = Gdx.files.internal("textures/story/outside/house_side.png").toTexture()
 
+    val catSit = Gdx.files.internal("textures/cat/cat_sit.png").toTexture()
+
     val animationBoat  = AnimationController(20.0f, *createTexturesArray("textures/story/outside/boat/boat", 8))
     val animationDock  = AnimationController(20.0f, *createTexturesArray("textures/story/outside/dock/dock", 4))
 
@@ -56,6 +58,7 @@ class Home: BaseScreen() {
         MusicSet.A_LITTLE_ORANGE_CAT.loop()
 
         this.disposableSet.add(cat)
+        this.disposableSet.add(catSit)
         this.disposableSet.add(animationBoat)
         this.disposableSet.add(animationDock)
 
@@ -135,17 +138,16 @@ class Home: BaseScreen() {
     }
 
     fun toOcean() {
-        this.cat.render(this.batch, 1.0f)
+        this.cat.renderWith(this.batch, 1.0f, catSit)
 
         this.batch.color = this.joinBackgroundColor
-        this.batch.draw(ResourceUtil.createOrGetBackground(JColor.WHITE), this.camera.position.x / 2f, -60f)
+        this.batch.draw(ResourceUtil.createOrGetBackground(JColor.WHITE), this.camera.position.x / 2f, -110f)
         this.batch.color = GdxColor.WHITE
 
         this.joinBackgroundColor.a = min(this.joinBackgroundColor.a + 0.1f, 1.0f)
         val music = MusicSet.A_LITTLE_ORANGE_CAT.getMusic()!!
         music.volume = max(music.volume - 0.05f, 0.0f)
 
-        this.batch.end()
 
         if (music.volume == 0.0f) {
             GameMain.INSTANCE.nextScreen(Ocean())
@@ -154,10 +156,6 @@ class Home: BaseScreen() {
 
     override fun render(delta: Float) {
         GameGlobal.initScreen()
-        world.step(1 / 30f, 6, 2)
-        if (GameMain.DEBUG_MODE) {
-            this.renderer.render(this.world, this.camera.combined)
-        }
 
         if (canMove) {
             this.cat.handleInput(this.inputHolder)
@@ -180,6 +178,7 @@ class Home: BaseScreen() {
         if (this.cat.getPos().x >= 1700) {
             sleep(200)
             toOcean()
+            this.batch.end()
             return
         }
 
@@ -193,6 +192,11 @@ class Home: BaseScreen() {
         }
 
         this.batch.end()
+
+        world.step(1 / 30f, 6, 2)
+        if (GameMain.DEBUG_MODE) {
+            this.renderer.render(this.world, this.camera.combined)
+        }
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -215,6 +219,7 @@ class Home: BaseScreen() {
 
     override fun hide() {
         MusicSet.A_LITTLE_ORANGE_CAT.stop()
+        MusicSet.A_LITTLE_ORANGE_CAT.dispose()
         super.hide()
     }
 }
