@@ -17,6 +17,7 @@ enum class MusicSet(val soundName: String) {
     private fun createMusic() {
         if (this.music == null) {
             this.music = this.createNewMusic()
+            this.music!!.volume = 0.5f
         }
     }
 

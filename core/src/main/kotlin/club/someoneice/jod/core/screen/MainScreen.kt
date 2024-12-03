@@ -57,6 +57,10 @@ class MainScreen: BaseScreen() {
     override fun keyDown(keycode: Int): Boolean = false
 
     override fun keyUp(keycode: Int): Boolean {
+        if (start) {
+            return false
+        }
+
         if (CtrlSets.INTERACT_KEYS.contains(keycode)) {
             SoundSet.SOUND_ENTER.play()
             start = true

@@ -30,7 +30,7 @@ class Ocean: BaseScreen() {
     val world = World(Vector2(0f, -40f), true)
     val camera = OrthographicCamera(1280f, 720f)
 
-    val cat = Cat(Vector2(500f, 150f))
+    val cat = Cat(Vector2(700f, 150f))
     val inputHolder = KeyInputHolder()
 
     val backgroundTexture = Gdx.files.internal("textures/story/ocean/ocean_background.png").toTexture()
@@ -49,8 +49,8 @@ class Ocean: BaseScreen() {
         this.cat.setRenderOffset(-60f, -20f)
         this.cat.camera.y += 50
 
-        // this.camera.zoom = 32f
-        this.camera.position.set(this.camera.viewportWidth / 2f, this.camera.viewportHeight / 2f, 0f)
+        this.cat.catLimit.set(280f, cat.catLimit.y)
+        this.cat.camera.set(this.camera.viewportWidth / 2f, this.camera.viewportHeight / 2f)
         this.camera.update()
 
         this.createBox()
@@ -75,17 +75,6 @@ class Ocean: BaseScreen() {
                 BodyDef().apply {
                     this.type = BodyType.StaticBody
                     this.position.set(1150f, 100f)
-                }
-            ).createFixture(this, 0f)
-            this.dispose()
-        }
-
-        PolygonShape().apply {
-            this.setAsBox(300f, 220f)
-            world.createBody(
-                BodyDef().apply {
-                    this.type = BodyType.StaticBody
-                    this.position.set(0f, 200f)
                 }
             ).createFixture(this, 0f)
             this.dispose()

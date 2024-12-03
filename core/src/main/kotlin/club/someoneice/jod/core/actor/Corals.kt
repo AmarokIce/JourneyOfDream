@@ -32,7 +32,7 @@ class Corals: Disposable {
             val textureRegion = TextureRegion(this.texture, posAt.first, posAt.second, posAt.first + 112, posAt.second + 112)
 
             val posX = 352f + MathUtils.random(0, 825) * 1.2f
-            val posY = 50f + MathUtils.random(0, 56) - (if (indexAt > 3) -25f else 12f) * 0.85f
+            val posY = (50f + MathUtils.random(0, 56) - (if (indexAt < 2) -40f else 40f)) * 0.7f
 
             this.coralsSet.add(CoralData(textureRegion, colors.random().cpy(), Vector2(posX, posY)))
         }

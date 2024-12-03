@@ -38,7 +38,7 @@ class Home: BaseScreen() {
     val animationBoat  = AnimationController(20.0f, *createTexturesArray("textures/story/outside/boat/boat", 8))
     val animationDock  = AnimationController(20.0f, *createTexturesArray("textures/story/outside/dock/dock", 4))
 
-    val cat = Cat(Vector2(500f, 170f))
+    val cat = Cat(Vector2(780f, 170f))
     val inputHolder = KeyInputHolder()
 
     val renderer = Box2DDebugRenderer()
@@ -48,8 +48,8 @@ class Home: BaseScreen() {
         this.cat.setRenderOffset(-60f, -20f)
         this.cat.camera.y += 50
 
-        this.camera.zoom = 32f
-        this.camera.position.set(this.camera.viewportWidth / 2f, this.camera.viewportHeight / 2f, 0f)
+        this.camera.zoom = 44f
+        this.cat.camera.set(this.cat.camera.x, this.cat.camera.y + 130f)
         this.camera.update()
 
         this.createBox()

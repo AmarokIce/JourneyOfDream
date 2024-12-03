@@ -3,6 +3,7 @@ package club.someoneice.jod.core
 import club.someoneice.jod.api.BaseScreen
 import club.someoneice.jod.core.GameMain.ArchitectureOS
 import club.someoneice.jod.core.screen.MainScreen
+import club.someoneice.jod.core.screen.outside.Home
 import club.someoneice.jod.data.GameGlobal
 import club.someoneice.jod.i18n.I18N
 import club.someoneice.jod.util.GdxColor
@@ -13,7 +14,7 @@ class GameMain(val arch: ArchitectureOS) : Game() {
     @Suppress("unused")
     companion object {
         lateinit var INSTANCE: GameMain
-        const val DEBUG_MODE = true
+        const val DEBUG_MODE = false
 
         fun info(str: String) {
             Gdx.app.log("journey of dream", str)
@@ -57,6 +58,7 @@ class GameMain(val arch: ArchitectureOS) : Game() {
 
     fun nextScreen(next: BaseScreen?) {
         GameGlobal.BATCH.color = GdxColor.WHITE.cpy()
+        GameGlobal.FONT.color = GdxColor.WHITE.cpy()
         this.setScreen(next)
     }
 

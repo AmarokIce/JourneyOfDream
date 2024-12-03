@@ -1,10 +1,13 @@
 <div align=center>
 
+<font color=Red size=5>团队分歧，不再更新，不再维护。</font><br />
+
+<br />
+
 ![](desktop/icons/logo.png)
 
 # Journey of Dream
 ## 梦之旅
-### *仍在开发中，敬请期待！*
 
 本项目参与 Taptap 聚光灯 GameJam 游戏开发挑战，详情见游戏 *[详细页面](https://www.taptap.cn/app/727740)* 。
 

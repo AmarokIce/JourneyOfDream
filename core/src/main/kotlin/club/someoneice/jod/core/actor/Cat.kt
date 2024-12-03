@@ -29,6 +29,8 @@ class Cat(pos: Vector2 = Vector2.Zero): Entity(pos = pos) {
 
     val camera = Vector2(pos)
 
+    val catLimit = Vector2(180f, 1832f)
+
     init {
         this.disposeableSet.add(staticCtrl)
         this.disposeableSet.add(walkingCtrl)
@@ -114,20 +116,20 @@ class Cat(pos: Vector2 = Vector2.Zero): Entity(pos = pos) {
         val catBodyPos = this.entityBody.position
 
         if (CtrlSets.LEFT_MOVING_KEYS.contains(keyInput)) {
-            if (catBodyPos.x <= 1532f) {
-                this.camera.x = max(this.camera.x - speed, 480f)
+            if (catBodyPos.x <= this.catLimit.y - 480f) {
+                this.camera.x = max(this.camera.x - speed, this.catLimit.x + 480f)
             }
 
-            if (catBodyPos.x > 0) {
-                catBodyPos.x = max(catBodyPos.x - speed, 0f)
+            if (catBodyPos.x > this.catLimit.x) {
+                catBodyPos.x = max(catBodyPos.x - speed, this.catLimit.x)
             }
         } else if (CtrlSets.RIGHT_MOVING_KEYS.contains(keyInput)) {
-            if (catBodyPos.x >= 480f) {
-                this.camera.x = min(this.camera.x + speed, 1532f)
+            if (catBodyPos.x >= this.catLimit.x + 480f) {
+                this.camera.x = min(this.camera.x + speed, this.catLimit.y - 480f)
             }
 
-            if (catBodyPos.x < 1932f) {
-                catBodyPos.x = min(catBodyPos.x + speed, 1932f)
+            if (catBodyPos.x < this.catLimit.y) {
+                catBodyPos.x = min(catBodyPos.x + speed, this.catLimit.y)
             }
         }
 
